@@ -33,7 +33,7 @@ from scipy.stats import mode
 from skimage import io, color, transform, img_as_ubyte
 import numpy as np
 import os
-
+import random
 from PIL import ImageOps, Image
 
 #tqdm
@@ -48,14 +48,16 @@ warnings.filterwarnings('ignore')
 #custom modules
 from skew_correction.constants import label2angle, device
 
-def get_images_in_dir(path, extensions=['jpg', 'png', 'jpeg'], return_path=False):
+def get_images_in_dir(path, extensions=['jpg', 'png', 'jpeg'], return_path=False, shuffle=False):
     
     if return_path:
-        return [os.path.join(path, x) for x in os.listdir(path) if x.split('.')[-1] in extensions]
+        res = [os.path.join(path, x) for x in os.listdir(path) if x.split('.')[-1] in extensions]
+    else:
+        res = [x for x in os.listdir(path) if x.split('.')[-1] in extensions]
 
-    return [x for x in os.listdir(path) if x.split('.')[-1] in extensions]
-
-
+    if shuffle:
+        random.shuffle(res)
+    return res
 
 
 def np2pil(img):
@@ -205,6 +207,8 @@ def rectify_skew1(img_path, angle=None):
     #     fixed_image, _ = rotateImage(io.imread(img), angle, img_name)
     # print(fixed_image)
     return fixed_image
+
+
 
 
 ## Model training functions
