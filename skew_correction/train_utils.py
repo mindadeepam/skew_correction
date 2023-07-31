@@ -20,5 +20,5 @@ checkpoint_callback = ModelCheckpoint(
     filename="{epoch:02d}-{val_loss:.2f}-{val_acc:.2f}"
 )
 early_stop_callback = EarlyStopping(
-    monitor="val_loss", min_delta=0.00, patience=4, verbose=False, mode="min"
+    monitor="val_loss", min_delta=0.00, patience=5, verbose=True, mode="min"
 )

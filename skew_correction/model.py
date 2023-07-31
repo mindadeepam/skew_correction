@@ -32,6 +32,30 @@ class TimmClassifier(nn.Module):
         out = self.backbone(x)
 
         return out
+    
+    def predict(self, x):
+        self.eval()  # Set the model to evaluation mode
+
+        # we need 4 dims
+        if len(x.shape)==3:
+            x = x.unsqueeze(0)
+
+        with torch.no_grad():
+            logits = self.forward(x)
+            probabilities = F.softmax(logits, dim=1)
+            _, predicted_classes = torch.max(probabilities, dim=1)
+        
+        if not predicted_classes.device==torch.device('cpu'):
+            predicted_classes.to('cpu')
+            
+        return predicted_classes
+    
+    def load(self, ckpt_path, device='auto'):
+        
+        if device=='auto':
+            device=torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+        self.load_state_dict(torch.load(ckpt_path, map_location=device))
 
 
 #######################################################################################################################################
@@ -106,4 +130,4 @@ def print_metrics_on_epoch_end(metrics):
         pretty_json = json.dumps(filtered_dict, indent=4)
         print(pretty_json)
     except:
-        print(metrics)
+        print({key: round(metrics[key].item(),2) for key in metrics})
