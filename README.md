@@ -17,5 +17,15 @@
 #### To-Do
 
 - [ ] train on more diverse dataset. ie get more data. 
-- [ ] write a testing script. 
-- [ ] integrate with vqa.
+- [ ] ~~write a testing script.~~ add argparse etc to this script, testing on 4 classes code ready.
+- [ ] add testing functionality for entire pipeline. given any angled images in a dir or df, test end-2-end and fix image. 
+- [ ] integrate with vqa. (getting the rectify_image function as fast nd accurate as possible).
+- [ ] try regression with cnn all angles, share with deepak.
+
+Think of the different use cases of the repo 
+- get_skew() of doc (complete pippeline)
+- rectify() doc (complete pippeline)
+- train model
+- test model only/ test entire pipeline.
+
+

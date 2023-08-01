@@ -50,7 +50,6 @@ class DatasetClass(Dataset):
         angle = self.labels[idx]
         image = read_raw_image(path)
         image = self.transform(image)
-
         label = angle2label[angle]
         return image, torch.tensor(label, dtype=torch.long)
 

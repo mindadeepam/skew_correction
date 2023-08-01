@@ -9,6 +9,7 @@ import torch.nn.functional as F
 import pytorch_lightning as pl
 
 verbose=False
+model=None
 
 #######################################################################################################################################
 
@@ -47,7 +48,7 @@ class TimmClassifier(nn.Module):
         
         if not predicted_classes.device==torch.device('cpu'):
             predicted_classes.to('cpu')
-            
+
         return predicted_classes
     
     def load(self, ckpt_path, device='auto'):
@@ -59,6 +60,7 @@ class TimmClassifier(nn.Module):
 
 
 #######################################################################################################################################
+
 
 class MyModelModule(pl.LightningModule):
     def __init__(self, model, loss_fn, lr):
@@ -131,3 +133,22 @@ def print_metrics_on_epoch_end(metrics):
         print(pretty_json)
     except:
         print({key: round(metrics[key].item(),2) for key in metrics})
+
+
+
+def ensure_model():
+    """
+    ensures we have a model loaded. add script to download from gcp if model is not available at path.
+    """
+    model_path = f"/var/tmp/{model_url.split('/')[-1]}"
+    if not os.path.exists(model_path):
+        model_path = download_file_url_from_gcp_to_tempdir(model_url)
+    
+    print("using model at {model_path}")
+    global model
+    if model==None:
+        model = TimmClassifier(model_url.split('/')[-1].split('.')[0], pretrained=False, num_classes=4, in_chans=1)
+        model.load(model_path)
+        model.to(device)
+    
+    return model

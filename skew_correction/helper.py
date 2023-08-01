@@ -4,6 +4,7 @@ import numpy as np
 import os
 import matplotlib.pyplot as plt
 import sys
+import re
 
 #PIL
 from PIL import Image, ImageOps
@@ -82,6 +83,12 @@ def read_raw_image(path, mode='L'):
         print("Error in exif_transpose")
     return img
 
+
+def extract_numbers_from_end(s):
+    match = re.search(r'\d+$', s)
+    if match:
+        return int(match.group())
+    return None
 
 def get_skew(image):
 
