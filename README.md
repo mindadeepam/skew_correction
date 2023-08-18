@@ -21,6 +21,7 @@
 - [ ] add testing functionality for entire pipeline. given any angled images in a dir or df, test end-2-end and fix image. 
 - [ ] integrate with vqa. (getting the rectify_image function as fast nd accurate as possible).
 - [ ] try regression with cnn all angles, share with deepak.
+- [ ] change data pipeline. transforms using collate_fn with diff for test and train.
 
 Think of the different use cases of the repo 
 - get_skew() of doc (complete pippeline)

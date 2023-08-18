@@ -13,6 +13,8 @@ root_dir = "/".join(( os.path.realpath(__file__)).split("/")[:-2])
 #######################################################################################################################################
 
 
+# functools.partial(collate_fn, split=)
+
 # Dataset
 train_transform = transforms.Compose([
     transforms.Resize((400, 400)),
@@ -86,7 +88,7 @@ class MyDataModule(pl.LightningDataModule):
             )
 
     def train_dataloader(self):
-        return DataLoader(self.train_ds, batch_size=self.train_batch_size, shuffle=False) 
+        return DataLoader(self.train_ds, batch_size=self.train_batch_size, shuffle=False)
 
     def val_dataloader(self):
         return DataLoader(self.val_ds, batch_size=self.val_batch_size, shuffle=False) 

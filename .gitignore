@@ -185,6 +185,7 @@ checkpoints/
 lightning_logs/
 logs_old/
 
+
 # data files
 /data
 /models
