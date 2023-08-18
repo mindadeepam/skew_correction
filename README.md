@@ -3,6 +3,7 @@
 
 ### Experiments
 
+- update 19/08/23: trying regression model at [this](notebooks/05_regression.ipynb) notebook
 
 #### Training: 
 
@@ -16,9 +17,9 @@
 
 #### To-Do
 
-- [ ] train on more diverse dataset. ie get more data. 
-- [ ] ~~write a testing script.~~ add argparse etc to this script, testing on 4 classes code ready.
-- [ ] add testing functionality for entire pipeline. given any angled images in a dir or df, test end-2-end and fix image. 
+- [x] train on more diverse dataset. ie get more data. 
+- [x] ~~write a testing script.~~ add argparse etc to this script, testing on 4 classes code ready.
+- [x] add testing functionality for entire pipeline. given any angled images in a dir or df, test end-2-end and fix image. 
 - [ ] integrate with vqa. (getting the rectify_image function as fast nd accurate as possible).
 - [ ] try regression with cnn all angles, share with deepak.
 - [ ] change data pipeline. transforms using collate_fn with diff for test and train.
