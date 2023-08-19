@@ -141,12 +141,12 @@ def plot_random_images(dataset, num_images=10, figsize=(12, 8), cmap='gray'):
     for i, ax in enumerate(axes.flat):
         if i < num_images:
             # Load the image from the dataset using the random index
-            image, _ = dataset[random_indices[i]]
+            image, angle = dataset[random_indices[i]]
             
             # If the image is in grayscale, remove the channel dimension for plotting
-            
             image = image.squeeze(0)
+            ax.set_title(f"Value: {angle}")
             ax.imshow(image, cmap=cmap)
             ax.axis('off')
-
+    plt.tight_layout()
     plt.show()

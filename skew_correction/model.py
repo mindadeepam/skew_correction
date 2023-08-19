@@ -129,8 +129,8 @@ def get_acc(y_hat, y):
     return acc
         
 
-def print_metrics_on_epoch_end(metrics):
-    keys_to_print = ['train_loss', 'train_acc_epoch', 'val_loss', 'val_acc_epoch']
+def print_metrics_on_epoch_end(metrics, keys_to_print=['train_loss', 'train_acc_epoch', 'val_loss', 'val_acc_epoch']):
+    # keys_to_print = ['train_loss', 'train_acc_epoch', 'val_loss', 'val_acc_epoch']
     try:
             
         filtered_dict = {key: round(metrics[key].item(),2) for key in keys_to_print}
