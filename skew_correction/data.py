@@ -145,7 +145,7 @@ def plot_random_images(dataset, num_images=10, figsize=(12, 8), cmap='gray'):
             
             # If the image is in grayscale, remove the channel dimension for plotting
             image = image.squeeze(0)
-            ax.set_title(f"Value: {angle}")
+            ax.set_title(f"Value: {angle:.2f}")
             ax.imshow(image, cmap=cmap)
             ax.axis('off')
     plt.tight_layout()

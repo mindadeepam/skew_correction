@@ -18,6 +18,30 @@ model=None
 
 #######################################################################################################################################
 
+class TimmRegressor(nn.Module):
+    def __init__(self, model_name, pretrained=True, in_chans=1, dropout=0.0):
+        super(TimmRegressor, self).__init__()
+        self.backbone = timm.create_model(
+            model_name, 
+            pretrained=pretrained, 
+            in_chans=in_chans,
+            drop_rate=dropout
+        )
+        self.regression_head = nn.Sequential(
+            nn.Linear(self.backbone.num_classes, 512),
+            nn.ReLU(),
+            nn.Dropout(dropout),
+            nn.Linear(512, 1),
+        )
+        
+    def forward(self, x):
+        out = self.backbone(x)
+        out = self.regression_head(out)
+
+        return out
+
+
+
 class TimmClassifier(nn.Module):
     def __init__(self, model_name, pretrained=True, num_classes=4, in_chans=1, dropout=0.0):
         super(TimmClassifier, self).__init__()
