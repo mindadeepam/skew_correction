@@ -3,12 +3,12 @@
 
 
 # Byte-compiled / optimized / DLL files
-__pycache__/
+*/__pycache__/*
 *.py[cod]
 *$py.class
-
 # C extensions
 *.so
+*.pyc
 
 # Distribution / packaging
 .Python
@@ -58,6 +58,7 @@ cover/
 # Translations
 *.mo
 *.pot
+*.pyc
 
 # Django stuff:
 *.log
@@ -175,11 +176,15 @@ cython_debug/
 */wandb/*
 
 # artifacts and data files
+
+*.pth
+*.ckpt
 outputs/
 logs/
 checkpoints/
 lightning_logs/
 logs_old/
+
 
 # data files
 /data
