@@ -6,7 +6,7 @@ from torchvision import transforms
 import pytorch_lightning as pl
 
 from skew_correction.helper import read_raw_image
-from skew_correction.constants import angle2label
+from skew_correction.constants import angle2label, image_size
 
 root_dir = "/".join(( os.path.realpath(__file__)).split("/")[:-2])
 
@@ -17,19 +17,22 @@ root_dir = "/".join(( os.path.realpath(__file__)).split("/")[:-2])
 
 # Dataset
 train_transform = transforms.Compose([
-    transforms.Resize((400, 400)),
+    transforms.Resize(image_size),
     transforms.ToTensor(),
     # transforms.Normalize(mean=[0.456], std=[0.225]),
-    transforms.RandomPerspective(distortion_scale=0.3, p=0.5),
+    # transforms.RandomPerspective(distortion_scale=0.3, p=0.5),
     transforms.GaussianBlur(1),
     transforms.ColorJitter(0.2),
+    transforms.RandomAutocontrast(0.5),
 ])
 
-tensor_transform = transforms.Compose([
-    transforms.Resize((400, 400)),
+test_transform = tensor_transform = transforms.Compose([
+    transforms.Resize(image_size),
     transforms.ToTensor(),
 ])
 
+
+#######################################################################################################################################
 
 class DatasetClass(Dataset):
     def __init__(self, file, split=None):
@@ -54,6 +57,39 @@ class DatasetClass(Dataset):
         image = self.transform(image)
         label = angle2label[angle]
         return image, torch.tensor(label, dtype=torch.long)
+
+#######################################################################################################################################
+
+
+class RegressionDataset(Dataset):
+    def __init__(self, csv_path=None, split="test", df = None):
+        super().__init__()
+        
+        if isinstance(df, pd.DataFrame):
+            self.df=df    
+        elif csv_path:
+            self.df = pd.read_csv(csv_path)
+        else:
+            raise Exception("pass either csv_path or df")
+
+
+        self.filepaths = self.df["filepath"]
+        self.labels = self.df["angle"]
+        self.split = split
+
+    def __len__(self):
+        return len(self.filepaths)
+    
+    def __getitem__(self, idx):
+        img = read_raw_image(self.filepaths[idx])
+        label = self.labels[idx]
+
+        if self.split=="train":
+            img = train_transform(img)
+        else:
+            img = test_transform(img)
+
+        return img, torch.tensor(label, dtype=torch.float)
 
 
 #######################################################################################################################################

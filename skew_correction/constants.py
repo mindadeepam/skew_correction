@@ -10,7 +10,7 @@ root_dir = "/".join(os.getcwd().split("/")[:-1])
 
 angle2label = {0:0, 90:1, 180:2, 270:3}
 label2angle = {value: key for key, value in angle2label.items()}
-
+image_size = (400, 400)
 train_params = {"batch_size": 8,
          "num_workers": 0,
          "shuffle": True}
